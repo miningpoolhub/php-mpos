@@ -14,7 +14,13 @@ if (isset($_REQUEST['limit']) && $_REQUEST['limit'] <= 100) {
   // Force limit
   $limit = 100;
 }
-$data['transactions'] = $transaction->getTransactions(0, NULL, $limit, $user_id);
+if (isset($_REQUEST['start'])) {
+  $start = $_REQUEST['start'];
+} else {
+  // start at the beginning
+  $limit = 0;
+}
+$data['transactions'] = $transaction->getTransactions($start, NULL, $limit, $user_id);
 
 // Fetch summary if enabled
 if (!$setting->getValue('disable_transactionsummary')) {
